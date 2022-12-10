@@ -23,6 +23,10 @@ const App = ({navigation}) => {
         <SafeAreaView style={{flex:1,backgroundColor:Colors.grey5}}>
         <Title/>
         <MyShiftItem/>
+        <MyShiftItem/>
+        <Title/>
+        <MyShiftItem/>
+        <MyShiftItem/>
         </SafeAreaView>
     );
 };

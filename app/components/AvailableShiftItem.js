@@ -32,11 +32,9 @@ const App = ({item}) => {
 
     return (
         <View style={styles.container}>
-            <View>
-                <Text style={styles.t1}>14:00-16:00</Text>
-                <Text style={styles.t2}>Helsinki</Text>
-            </View>
-            <View>
+            <Text style={styles.t1}>14:00-16:00</Text>
+            <View style={{flexDirection:'row'}}>
+                <Text style={{...styles.t2, color:Colors.grey1,}}>Booked</Text>
                 {Btn()}
             </View>
         </View>
@@ -58,10 +56,13 @@ const styles = StyleSheet.create({
     t1:{
         fontSize:FontSizes.h1,
         color:Colors.grey1,
+        alignSelf:'center',
     },
     t2:{
-        fontSize:FontSizes.h5,
-        color:Colors.grey2,
+        fontSize:FontSizes.h4,
+        alignSelf:'center',
+        marginRight:12,
+        fontWeight:'500',
     },
 });
 

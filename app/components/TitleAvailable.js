@@ -11,7 +11,6 @@ const App = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.t1}>Today</Text>
-            <Text style={styles.t2}>2 shifts, 4 h</Text>
         </View>
     );
 };
