@@ -9,18 +9,15 @@ import {
 } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { addItems } from '../redux/slice';
-
 import AvailableShifts from '../Screens/AvailableShifts';
 import MyShift from '../Screens/Myshifts';
 
+import { Colors, FontSizes} from '../utils/utils';
 
 const Tab = createBottomTabNavigator();
 const App = ({navigation}) => {
 
-    let List = useSelector((item) => item.ShiftsList.Shifts);
-    console.log(List.length);
+    
 
     const windowWidth = Dimensions.get('window').width
     const tabBarHeight = () => {
@@ -29,7 +26,7 @@ const App = ({navigation}) => {
             else return '8%'
         }
         else {
-            return '10%'
+            return '8%'
         }
     }
 
@@ -37,17 +34,19 @@ const App = ({navigation}) => {
         <Tab.Navigator
         initialRouteName="MyShift"
         screenOptions={({ route }) => ({
-                    
-            tabBarLabelPosition:'below-icon',
-            tabBarStyle: { height: tabBarHeight() },
+            tabBarLabelPosition: "beside-icon",
+            tabBarStyle: {
+                height: tabBarHeight(),
+                backgroundColor:Colors.grey5,
+            },
+            tabBarIconStyle: { display: "none" },
             tabBarLabelStyle: {
-                fontSize: 12,
-                fontFamily: 'OpenSans-SemiBold',
-                marginBottom: 7
+                fontSize: 18,
+                marginRight:18
             },
         })}>
-            <Tab.Screen name="MyShift" component={MyShift} options={{ headerTitleAlign: 'center', headerShadowVisible: false, headerStyle: { height: 70 } }}/>
-            <Tab.Screen name="AvailableShifts" component={AvailableShifts} options={{ headerTitleAlign: 'center', headerShadowVisible: false, headerStyle: { height: 70 } }}/>
+            <Tab.Screen name="My Shift" component={MyShift} options={{headerShown: false, headerTitleAlign: 'center', headerShadowVisible: false, headerStyle: { height: 70 } }}/>
+            <Tab.Screen name="Available Shifts" component={AvailableShifts} options={{headerShown: false, headerTitleAlign: 'center', headerShadowVisible: false, headerStyle: { height: 70 } }}/>
         </Tab.Navigator>
     );
 };

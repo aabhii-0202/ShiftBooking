@@ -7,16 +7,22 @@ import {
 TouchableWithoutFeedback,
     TouchableOpacity,
 } from 'react-native';
+import { Colors, FontSizes} from '../utils/utils';
 
+import MyShiftItem from '../components/MyShiftItem';
+import Title from '../components/Title';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { addItems } from '../redux/slice';
 
 const App = ({navigation}) => {
 
-
+    let List = useSelector((item) => item.ShiftsList.Shifts);
+    console.log(List.length);
     return (
-        <SafeAreaView style={{flex:1}}>
-        <ScrollView style={{paddingHorizontal:24}}>
-        <Text>MyShifts</Text>
-        </ScrollView>
+        <SafeAreaView style={{flex:1,backgroundColor:Colors.grey5}}>
+        <Title/>
+        <MyShiftItem/>
         </SafeAreaView>
     );
 };
