@@ -20,8 +20,7 @@ import { Colors, FontSizes} from '../utils/utils';
 const App = ({navigation}) => {
 
     let List = useSelector((item) => item.ShiftsList.Shifts);
-    console.log(List.length);
-    const filters = ['Helsinki(5)', 'Tampere(8)', 'Turku(5)'];
+    const [filters, setfilters] = useState(['Helsinki(5)', 'Tampere(8)', 'Turku(5)']);
     const [selected,setselected] = useState(0);
 
 
