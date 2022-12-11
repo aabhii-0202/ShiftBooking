@@ -12,7 +12,7 @@ import { Colors, FontSizes} from '../utils/utils';
 import {CancelBtn,BookBtn,DissabledBtn} from '../components/Buttons';
 
 
-const App = ({item}) => {
+const App = ({data}) => {
 
     const Btn = (type) => {
         if (type === 1){

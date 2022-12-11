@@ -12,30 +12,36 @@ import { Colors, FontSizes} from '../utils/utils';
 import {CancelBtn,BookBtn,DissabledBtn} from '../components/Buttons';
 
 
-const App = ({item}) => {
+const App = ({data}) => {
 
     const Btn = (type) => {
         if (type === 1){
             return (
-                <DissabledBtn text="Cancel"/>
+                <BookBtn text="Book"/>
             );
         }
         else if (type === 2){
             return (
-                <DissabledBtn text="Cancel"/>
+                <CancelBtn text="Cancel"/>
             );
         }
         return (
-            <DissabledBtn text="Cancel"/>
+            <DissabledBtn text="Book"/>
         );
     };
+
+    let btntyp = 1;
+    if (data.booked) {btntyp = 2;}
 
     return (
         <View style={styles.container}>
             <Text style={styles.t1}>14:00-16:00</Text>
             <View style={{flexDirection:'row'}}>
-                <Text style={{...styles.t2, color:Colors.grey1,}}>Booked</Text>
-                {Btn()}
+                {   data.booked ?
+                    <Text style={{...styles.t2, color:Colors.grey1,}}>Booked</Text>
+                    : null
+                }
+                {Btn(btntyp)}
             </View>
         </View>
     );
