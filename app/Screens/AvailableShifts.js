@@ -1,14 +1,14 @@
 import React, {useLayoutEffect,useEffect,useState} from 'react';
 
 import {
-    SafeAreaView,ScrollView,
-    StyleSheet,Image,
-    Text, TextInput, View, Keyboard,
-TouchableWithoutFeedback,
+    SafeAreaView,
+    StyleSheet,
+    Text, View,
     TouchableOpacity,
     FlatList,
 } from 'react-native';
 
+const moment = require('moment');
 import AvailableShiftItem from '../components/AvailableShiftItem';
 import TitleAvailable from '../components/TitleAvailable';
 
@@ -18,7 +18,7 @@ import { addItems } from '../redux/slice';
 import { Colors, FontSizes} from '../utils/utils';
 
 import Spinner from 'react-native-loading-spinner-overlay';
-import { getShift } from '../api/shiftsapi';
+import { getShift, bookShift, cancelShift } from '../api/shiftsapi';
 
 
 const App = ({navigation}) => {
@@ -38,6 +38,7 @@ const App = ({navigation}) => {
             const res = await getShift();
             if (res && res.length > 0) {
                 setMainList(res);
+                // console.log(res)
                 const map = new Map();
                 for (let i = 0; i < res.length; i++){
                     if (map.has(res[i].area)) {
@@ -72,6 +73,15 @@ const App = ({navigation}) => {
 
         setList(temp);
     };
+
+    const book = async (id) => {
+        setLoading(true);
+        // const res = await bookShift(id);
+        console.log(id);
+        setLoading(false);
+    };
+
+
 
 
     return (
@@ -110,12 +120,16 @@ const App = ({navigation}) => {
             data={list}
             renderItem={({item,index})=>{
                 // console.log(index)
-                return (
-                    <AvailableShiftItem data = {item}/>
-                );
+                if (index > 0){
+                    let nowdate = moment.unix(item.startTime).format('MM/DD');
+                    return (
+                        <View>
+                            <TitleAvailable text={nowdate}/>
+                            <AvailableShiftItem data = {item} click={()=> book(item.id)}/>
+                        </View>
+                    );
+                }
             }}/>
-            {/* <TitleAvailable/>
-            <AvailableShiftItem/> */}
         </SafeAreaView>
     );
 };

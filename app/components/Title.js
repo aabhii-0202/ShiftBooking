@@ -7,11 +7,11 @@ import {
 import { Colors, FontSizes} from '../utils/utils';
 
 
-const App = () => {
+const App = ({text1, text2}) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.t1}>Today</Text>
-            <Text style={styles.t2}>2 shifts, 4 h</Text>
+            <Text style={styles.t1}>{text1}</Text>
+            <Text style={styles.t2}>{text2}</Text>
         </View>
     );
 };

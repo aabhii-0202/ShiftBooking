@@ -66,14 +66,23 @@ const App = ({navigation}) => {
                         <MyShiftItem data={item}/>
                     );
                 }}
-                /> : <Text style={styles.noShift}>No Booked Shifts for now</Text>
+                /> : null
+                // <Text style={styles.noShift}>No Booked Shifts for now</Text>
             }
-        {/* <Title/>
-        <MyShiftItem/>
-        <MyShiftItem/>
-        <Title/>
-        <MyShiftItem/>
-        <MyShiftItem/> */}
+        <ScrollView>
+            <Title text1="Today" text2="2 shifts, 4 h"/>
+            <MyShiftItem/>
+            <MyShiftItem/>
+            <Title text1="Tomorrow" text2="3 shifts, 6 h"/>
+            <MyShiftItem t={1}/>
+            <MyShiftItem t={1}/>
+            <Title text1="December 13" text2="1 shifts, 6 h"/>
+            <MyShiftItem t={1}/>
+            <MyShiftItem t={1}/>
+            <Title text1="December 14" text2="2 shifts, 4 h"/>
+            <MyShiftItem t={1}/>
+            <MyShiftItem t={1}/>
+        </ScrollView>
         </SafeAreaView>
     );
 };

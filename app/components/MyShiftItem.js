@@ -9,20 +9,15 @@ import {
 
 import { Colors, FontSizes} from '../utils/utils';
 
-import {CancelBtn,BookBtn,DissabledBtn} from '../components/Buttons';
+import {CancelBtn,DissabledBtn} from '../components/Buttons';
 
 
-const App = ({data}) => {
+const App = ({data,t}) => {
 
     const Btn = (type) => {
         if (type === 1){
             return (
-                <DissabledBtn text="Cancel"/>
-            );
-        }
-        else if (type === 2){
-            return (
-                <DissabledBtn text="Cancel"/>
+                <CancelBtn text="Cancel"/>
             );
         }
         return (
@@ -37,7 +32,7 @@ const App = ({data}) => {
                 <Text style={styles.t2}>Helsinki</Text>
             </View>
             <View>
-                {Btn()}
+                {Btn(t)}
             </View>
         </View>
     );
