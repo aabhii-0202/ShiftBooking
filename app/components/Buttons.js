@@ -40,5 +40,6 @@ const styles = StyleSheet.create({
         alignSelf:'baseline',
         alignItems:'center',
         borderRadius:24,
+        marginTop:6,
     },
 });

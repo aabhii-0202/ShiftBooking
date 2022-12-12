@@ -8,9 +8,33 @@ import { Colors, FontSizes} from '../utils/utils';
 
 
 const App = ({text1, text2}) => {
+
+
+    const month = (num) => {
+        const map = new Map();
+        map.set('01', 'January');
+        map.set('02', 'February');
+        map.set('03', 'March');
+        map.set('04', 'April');
+        map.set('05', 'May');
+        map.set('06', 'June');
+        map.set('07', 'July');
+        map.set('08', 'August');
+        map.set('09', 'September');
+        map.set('10', 'October');
+        map.set('11', 'November');
+        map.set('12', 'December');
+
+        return map.get(num.substring(3));
+    };
+
+    let date;
+    date = month(text1) + ' ' + text1.substring(0,2);
+
+
     return (
         <View style={styles.container}>
-            <Text style={styles.t1}>{text1}</Text>
+            <Text style={styles.t1}>{date}</Text>
             <Text style={styles.t2}>{text2}</Text>
         </View>
     );

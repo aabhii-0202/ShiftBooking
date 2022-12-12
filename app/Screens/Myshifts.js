@@ -2,8 +2,9 @@ import React, {useLayoutEffect,useEffect,useState} from 'react';
 
 import {
     SafeAreaView,ScrollView,Text,
-    StyleSheet,FlatList,
+    StyleSheet,FlatList,View,
 } from 'react-native';
+const moment = require('moment');
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useIsFocused } from '@react-navigation/native';
@@ -59,7 +60,6 @@ const App = ({navigation}) => {
         setLoading(false);
     };
 
-
     return (
         <SafeAreaView style={{flex:1,backgroundColor:Colors.grey5}}>
             <Spinner
@@ -67,13 +67,18 @@ const App = ({navigation}) => {
                 textContent={'Please Wait...'}
                 textStyle={{ color: '#FFF' }}
             />
+            <Title text1="02/02" text2="2 shifts, 4 h"/>
             {
                 list.length > 0 ?
                 <FlatList
                 data={list}
                 renderItem={({item})=>{
+                    const date = moment.unix(item.startTime).format('DD/MM');
                     return (
-                        <MyShiftItem data={item} t={1} click={()=>{cancel(item.id);}}/>
+                        <View>
+                            <Title text1={date} text2="1 shifts, n hours"/>
+                            <MyShiftItem data={item} t={1} click={()=>{cancel(item.id);}}/>
+                        </View>
                     );
                 }}
                 /> : //null
