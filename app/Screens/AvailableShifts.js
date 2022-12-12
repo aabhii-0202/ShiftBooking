@@ -3,7 +3,7 @@ import React, {useLayoutEffect,useEffect,useState} from 'react';
 import {
     SafeAreaView,
     StyleSheet,
-    Text, View,
+    Text, View,Dimensions,
     TouchableOpacity,
     FlatList,
 } from 'react-native';
@@ -15,7 +15,9 @@ import TitleAvailable from '../components/TitleAvailable';
 import { useSelector, useDispatch } from 'react-redux';
 import { addItems } from '../redux/slice';
 
+import { useIsFocused } from '@react-navigation/native';
 import { Colors, FontSizes} from '../utils/utils';
+import { Snackbar } from 'react-native-paper';
 
 import Spinner from 'react-native-loading-spinner-overlay';
 import { getShift, bookShift, cancelShift } from '../api/shiftsapi';
@@ -28,9 +30,12 @@ const App = ({navigation}) => {
     const [filtercount,setfiltercount] = useState([]);
     const [selected,setselected] = useState(0);
     const [mainList, setMainList] = useState([]);
+    const [snackbar, setsnackbar] = useState(false);
+    const [snackbarText, setsnackbarText] = useState('');
 
     const [loading,setLoading] = useState(false);
     const [list,setList] = useState([]);
+    const isFocused = useIsFocused();
 
     useEffect(()=>{
         const getShifts = async () =>{
@@ -64,24 +69,63 @@ const App = ({navigation}) => {
             setLoading(false);
         };
         getShifts();
-    },[]);
+    },[isFocused]);
 
     const changeList = (index) => {
         const temp = mainList.filter((item)=>{
             return filters[index] === item.area;
         });
-
         setList(temp);
     };
 
     const book = async (id) => {
         setLoading(true);
-        // const res = await bookShift(id);
-        console.log(id);
+        const res = await bookShift(id);
+        console.log(res);
+        if (!res.area){
+            setsnackbarText('Unable to Book this Shift');
+            setsnackbar(true);
+        }
+        load();
+    };
+
+    const cancel = async (id) => {
+        setLoading(true);
+        const res1 = await cancelShift(id);
+        console.log(res1);
+        load();
         setLoading(false);
     };
 
-
+    const load = async () => {
+        const res = await getShift();
+            if (res && res.length > 0) {
+                setMainList(res);
+                // console.log(res)
+                const map = new Map();
+                for (let i = 0; i < res.length; i++){
+                    if (map.has(res[i].area)) {
+                        map.set(res[i].area, map.get(res[i].area) + 1);
+                    }
+                    else {
+                        map.set(res[i].area, 0);
+                    }
+                }
+                let arr1 = [];
+                let arr2 = [];
+                for (let [key, value] of map) {
+                    arr1.push(key);
+                    arr2.push(value);
+                }
+                setfilters(arr1);
+                setfiltercount(arr2);
+                const temparr = res.filter((item)=>{
+                    return arr1[selected] === item.area;
+                });
+                setList(temparr);
+            }
+        setLoading(false);
+    };
 
 
     return (
@@ -125,11 +169,18 @@ const App = ({navigation}) => {
                     return (
                         <View>
                             <TitleAvailable text={nowdate}/>
-                            <AvailableShiftItem data = {item} click={()=> book(item.id)}/>
+                            <AvailableShiftItem data = {item} click={()=> {book(item.id);}} can={()=> {cancel(item.id);}}/>
                         </View>
                     );
                 }
             }}/>
+            <Snackbar
+                visible={snackbar}
+                onDismiss={()=>setsnackbar(false)}
+                style={{ width: Dimensions.get('window').width - 15 }}
+                action={{
+                label: 'Ok',
+            }}>{snackbarText}</Snackbar>
         </SafeAreaView>
     );
 };

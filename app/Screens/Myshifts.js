@@ -1,13 +1,12 @@
 import React, {useLayoutEffect,useEffect,useState} from 'react';
 
 import {
-    SafeAreaView,ScrollView,
-    StyleSheet,Image,FlatList,
-    Text, TextInput, View, Keyboard,
-TouchableWithoutFeedback,
-    TouchableOpacity,
+    SafeAreaView,ScrollView,Text,
+    StyleSheet,FlatList,
 } from 'react-native';
+
 import Spinner from 'react-native-loading-spinner-overlay';
+import { useIsFocused } from '@react-navigation/native';
 import { Colors, FontSizes} from '../utils/utils';
 
 import MyShiftItem from '../components/MyShiftItem';
@@ -25,12 +24,14 @@ const App = ({navigation}) => {
 
 
     const [loading,setLoading] = useState(false);
-    const [list,setList] = useState([])
+    const isFocused = useIsFocused();
+    const [list,setList] = useState([]);
 
     useEffect(()=>{
         const getShifts = async () =>{
             setLoading(true);
             const res = await getShift();
+            // console.log(res);
             if (res && res.length > 0) {
                 let myShifts = res.filter((item)=>{
                     return  item.booked;
@@ -41,11 +42,20 @@ const App = ({navigation}) => {
             setLoading(false);
         };
         getShifts();
-    },[]);
+    },[isFocused]);
 
-    const cancelShift = (id) => {
+    const cancel = async (id) => {
         setLoading(true);
-        const res = cancelShift(id);
+        const res1 = await cancelShift(id);
+        console.log(res1);
+        const res = await getShift();
+        if (res && res.length > 0) {
+            let myShifts = res.filter((item)=>{
+                return  item.booked;
+            });
+
+            setList(myShifts);
+        }
         setLoading(false);
     };
 
@@ -63,14 +73,14 @@ const App = ({navigation}) => {
                 data={list}
                 renderItem={({item})=>{
                     return (
-                        <MyShiftItem data={item}/>
+                        <MyShiftItem data={item} t={1} click={()=>{cancel(item.id);}}/>
                     );
                 }}
-                /> : null
-                // <Text style={styles.noShift}>No Booked Shifts for now</Text>
+                /> : //null
+                <Text style={styles.noShift}>No Booked Shifts for now</Text>
             }
         <ScrollView>
-            <Title text1="Today" text2="2 shifts, 4 h"/>
+            {/* <Title text1="Today" text2="2 shifts, 4 h"/>
             <MyShiftItem/>
             <MyShiftItem/>
             <Title text1="Tomorrow" text2="3 shifts, 6 h"/>
@@ -81,7 +91,7 @@ const App = ({navigation}) => {
             <MyShiftItem t={1}/>
             <Title text1="December 14" text2="2 shifts, 4 h"/>
             <MyShiftItem t={1}/>
-            <MyShiftItem t={1}/>
+            <MyShiftItem t={1}/> */}
         </ScrollView>
         </SafeAreaView>
     );

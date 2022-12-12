@@ -1,23 +1,16 @@
-import React, {useLayoutEffect,useEffect,useState} from 'react';
-
-import {
-    SafeAreaView,ScrollView,
-    StyleSheet,Image,
-    Text, TextInput, View, Keyboard,
-    TouchableOpacity,
-} from 'react-native';
-
+import React from 'react';
+const moment = require('moment');
+import {StyleSheet,Text, View} from 'react-native';
 import { Colors, FontSizes} from '../utils/utils';
-
 import {CancelBtn,DissabledBtn} from '../components/Buttons';
 
 
-const App = ({data,t}) => {
+const App = ({data,t,click}) => {
 
     const Btn = (type) => {
         if (type === 1){
             return (
-                <CancelBtn text="Cancel"/>
+                <CancelBtn text="Cancel" click={click}/>
             );
         }
         return (
@@ -25,11 +18,14 @@ const App = ({data,t}) => {
         );
     };
 
+    const start = moment.unix(data.startTime).format('HH:MM');
+    const end = moment.unix(data.endTime).format('HH:MM');
+
     return (
         <View style={styles.container}>
             <View>
-                <Text style={styles.t1}>14:00-16:00</Text>
-                <Text style={styles.t2}>Helsinki</Text>
+                <Text style={styles.t1}>{start} - {end}</Text>
+                <Text style={styles.t2}>{data.area}</Text>
             </View>
             <View>
                 {Btn(t)}

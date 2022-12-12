@@ -27,7 +27,7 @@ export const getShiftById = async (id) => {
 
 export const bookShift = async (id) => {
     return await API({
-        method: 'POST',
+        method: 'GET',
         url: `/shifts/${id}/book`,
         headers: {
             'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ export const bookShift = async (id) => {
 
 export const cancelShift = async (id) => {
     return await API({
-        method: 'POST',
+        method: 'GET',
         url: `/shifts/${id}/cancel`,
         headers: {
             'Content-Type': 'application/json',

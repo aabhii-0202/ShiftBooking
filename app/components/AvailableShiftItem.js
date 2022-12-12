@@ -11,7 +11,7 @@ import { Colors, FontSizes} from '../utils/utils';
 
 import {CancelBtn,BookBtn,DissabledBtn} from '../components/Buttons';
 
-const App = ({data,click}) => {
+const App = ({data,click,can}) => {
 
     const Btn = (type,id) => {
         if (type === 1){
@@ -21,7 +21,7 @@ const App = ({data,click}) => {
         }
         else if (type === 2){
             return (
-                <CancelBtn text="Cancel"/>
+                <CancelBtn text="Cancel" click={can}/>
             );
         }
         return (
